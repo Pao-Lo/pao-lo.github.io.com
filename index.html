@@ -1,0 +1,664 @@
+# Activity-7
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity 7 - Deep Love Era</title>
+    <link rel="icon" href="olivia.png" type="image/png">
+
+    <style>
+
+        /* =========================
+           MONOCHROMATIC MAROON THEME
+        ========================= */
+
+        :root{
+            --maroon-dark:#180708;
+            --maroon-bg:#2b0d10;
+            --maroon-card:#3d1418;
+            --maroon-light:#6e2a31;
+            --maroon-accent:#a44b56;
+            --maroon-soft:#d8b8bd;
+            --text:#fff7f7;
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+            linear-gradient(135deg,
+            var(--maroon-dark),
+            var(--maroon-bg),
+            #4d1c23);
+            color:var(--text);
+            overflow-x:hidden;
+        }
+
+        /* NAVIGATION */
+
+        nav{
+            position:sticky;
+            top:0;
+            z-index:999;
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:12px;
+            padding:18px;
+            background:rgba(24,7,8,0.9);
+            backdrop-filter:blur(12px);
+            border-bottom:2px solid rgba(255,255,255,0.08);
+        }
+
+        nav a{
+            text-decoration:none;
+            color:var(--maroon-soft);
+            border:1px solid var(--maroon-accent);
+            padding:10px 16px;
+            border-radius:30px;
+            font-size:12px;
+            font-weight:700;
+            letter-spacing:1px;
+            transition:0.3s;
+        }
+
+        nav a:hover{
+            background:var(--maroon-accent);
+            color:white;
+            transform:translateY(-3px);
+        }
+
+        /* LOGIN SCREEN */
+
+        #login-screen{
+            position:fixed;
+            inset:0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:
+            radial-gradient(circle at top left,
+            rgba(164,75,86,0.2),
+            transparent 30%),
+            radial-gradient(circle at bottom right,
+            rgba(110,42,49,0.3),
+            transparent 30%),
+            var(--maroon-dark);
+            z-index:9999;
+        }
+
+        #main-content{
+            display:none;
+        }
+
+        .login-box{
+            width:400px;
+            padding:45px;
+            background:rgba(61,20,24,0.95);
+            border-radius:25px;
+            border:1px solid rgba(255,255,255,0.08);
+            text-align:center;
+            box-shadow:
+            0 0 25px rgba(164,75,86,0.25),
+            0 0 60px rgba(0,0,0,0.4);
+        }
+
+        .login-box h1{
+            color:var(--maroon-soft);
+            font-size:34px;
+            margin-bottom:10px;
+        }
+
+        .login-box p{
+            color:#e8d9dc;
+            margin-bottom:28px;
+        }
+
+        .login-box input{
+            width:100%;
+            padding:14px;
+            margin-bottom:16px;
+            border:none;
+            border-radius:14px;
+            background:#240b0d;
+            color:white;
+            font-size:15px;
+            outline:none;
+        }
+
+        .login-box input:focus{
+            border:1px solid var(--maroon-accent);
+        }
+
+        .login-box button{
+            width:100%;
+            padding:14px;
+            border:none;
+            border-radius:14px;
+            background:linear-gradient(
+            90deg,
+            var(--maroon-light),
+            var(--maroon-accent));
+            color:white;
+            font-size:16px;
+            font-weight:800;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .login-box button:hover{
+            transform:scale(1.03);
+        }
+
+        .error-msg{
+            display:none;
+            color:#ff8f8f;
+            margin-bottom:14px;
+            font-size:13px;
+        }
+
+        /* PAGES */
+
+        .page{
+            display:none;
+            width:100%;
+            min-height:100vh;
+            padding:60px 40px 160px;
+        }
+
+        /* HERO PAGE */
+
+        #page1{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .hero-container{
+            max-width:1100px;
+            width:100%;
+        }
+
+        .hero-sticker-box{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:40px;
+            background:
+            linear-gradient(145deg,
+            #42151a,
+            #240b0d);
+            padding:60px;
+            border-radius:30px;
+            border:1px solid rgba(255,255,255,0.08);
+            box-shadow:
+            0 0 30px rgba(164,75,86,0.25),
+            0 0 60px rgba(0,0,0,0.3);
+        }
+
+        .hero-title{
+            font-size:clamp(42px,7vw,80px);
+            line-height:1;
+            font-weight:900;
+        }
+
+        .hero-title span{
+            color:var(--maroon-accent);
+        }
+
+        .hero-sub{
+            display:flex;
+            align-items:center;
+            line-height:1.9;
+            font-size:19px;
+            color:#f2e8ea;
+            border-left:5px solid var(--maroon-accent);
+            padding-left:25px;
+        }
+
+        /* PAGE 2 */
+
+        #page2{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:40px;
+        }
+
+        .scroll-text{
+            width:100%;
+            overflow:hidden;
+            white-space:nowrap;
+            padding:16px 0;
+            background:
+            linear-gradient(90deg,
+            var(--maroon-light),
+            var(--maroon-accent));
+            color:white;
+            font-weight:900;
+            font-size:24px;
+            animation:scrolling 20s linear infinite;
+            text-transform:uppercase;
+            letter-spacing:2px;
+        }
+
+        @keyframes scrolling{
+            0%{
+                transform:translateX(100%);
+            }
+            100%{
+                transform:translateX(-100%);
+            }
+        }
+
+        .album-art{
+            width:350px;
+            border-radius:25px;
+            border:5px solid white;
+            box-shadow:
+            0 0 25px rgba(164,75,86,0.3),
+            0 0 60px rgba(0,0,0,0.4);
+        }
+
+        .audio-box{
+            width:420px;
+            background:var(--maroon-card);
+            padding:30px;
+            border-radius:25px;
+            text-align:center;
+            border:1px solid rgba(255,255,255,0.08);
+        }
+
+        .soft2-title{
+            margin-bottom:18px;
+            color:var(--maroon-soft);
+            font-size:24px;
+        }
+
+        /* PAGE 3 & 4 */
+
+        #page3,
+        #page4{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .act-header{
+            margin-bottom:40px;
+        }
+
+        .act-header h2{
+            color:var(--maroon-soft);
+            font-size:26px;
+            letter-spacing:2px;
+        }
+
+        .btn-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:18px;
+            width:100%;
+            max-width:900px;
+        }
+
+        /* BUTTONS */
+
+        .uberbutton{
+            background:black;
+            color:white;
+            padding:15px 30px;
+            border:1px solid #333;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .amazonbutton{
+            background:#ffd814;
+            color:#000;
+            padding:15px 30px;
+            border:none;
+            border-radius:50px;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .githubbutton{
+            background:#2ea44f;
+            color:white;
+            padding:15px 30px;
+            border:none;
+            border-radius:8px;
+            font-weight:bold;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .bootstrapbutton{
+            background:#7952b3;
+            color:white;
+            padding:15px 30px;
+            border:none;
+            border-radius:5px;
+            font-weight:bold;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .downloadbutton{
+            background:transparent;
+            color:#f3f0ff;
+            padding:15px 30px;
+            border:1px solid #6c757d;
+            border-radius:5px;
+            font-weight:bold;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .linkedinbutton{
+            background:#0a66c2;
+            color:white;
+            padding:15px 30px;
+            border:none;
+            border-radius:50px;
+            font-weight:bold;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .savebutton{
+            background:transparent;
+            color:#d8b8bd;
+            padding:15px 30px;
+            border:1px solid var(--maroon-accent);
+            border-radius:50px;
+            font-weight:bold;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        /* HOVER EFFECTS */
+
+        #page3 .btn-grid button{
+            transition:0.3s;
+        }
+
+        #page3 .btn-grid button:hover{
+            transform:translateY(-5px);
+        }
+
+        /* PAGINATION */
+
+        .pagination-bar{
+            position:fixed;
+            bottom:25px;
+            left:50%;
+            transform:translateX(-50%);
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:14px 22px;
+            background:rgba(61,20,24,0.95);
+            border-radius:50px;
+            border:1px solid rgba(255,255,255,0.08);
+            backdrop-filter:blur(12px);
+            z-index:1000;
+        }
+
+        .page-btn{
+            width:42px;
+            height:42px;
+            border:none;
+            border-radius:50%;
+            background:#240b0d;
+            color:var(--maroon-soft);
+            font-weight:700;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .page-btn.active,
+        .page-btn:hover{
+            background:
+            linear-gradient(135deg,
+            var(--maroon-light),
+            var(--maroon-accent));
+            color:white;
+        }
+
+        .nav-btn{
+            border:none;
+            background:none;
+            color:white;
+            cursor:pointer;
+            font-weight:bold;
+            padding:0 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div id="login-screen">
+    <div class="login-box">
+
+        <h1>You're going Deeper</h1>
+
+        <p>let's dive in.</p>
+
+        <div class="error-msg" id="error-msg">
+            Don't leave me hanging! Fill the fields.
+        </div>
+
+        <input type="text" id="username" placeholder="User">
+
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="doLogin()">Proceed</button>
+
+    </div>
+</div>
+
+<div id="main-content">
+
+<nav>
+    <a href="#" onclick="goTo(1);return false;">ACT 5 - HERO</a>
+    <a href="#" onclick="goTo(2);return false;">ACT 4 - IMAGES & AUDIO</a>
+    <a href="#" onclick="goTo(3);return false;">ACT 3 - HOVER & SHADOW</a>
+    <a href="#" onclick="goTo(4);return false;">ACT 2 - CSS BASIC</a>
+</nav>
+
+<!-- PAGE 1 -->
+
+<div class="page" id="page1">
+
+    <div class="hero-container">
+
+        <div class="hero-sticker-box">
+
+            <h1 class="hero-title">
+                I'd risk it all for <span>you</span>
+            </h1>
+
+            <p class="hero-sub">
+                a powerful expression of deep love and devotion.
+                It means someone is willing to face uncertainty,
+                sacrifice comfort, and take chances just to protect,
+                support, or stay beside the person they truly care about.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PAGE 2 -->
+
+<div class="page" id="page2">
+
+    <div class="scroll-text">
+        It Will Rain • When I Was Your Man • All I Ask • Risk It All
+    </div>
+
+    <img src="bruno_cover.jpg"
+         alt="Bruno Mars Album Art"
+         class="album-art">
+
+    <div class="audio-box">
+
+        <h2 class="soft2-title">
+            Now Playing: It Will Rain
+        </h2>
+
+        <audio controls>
+            <source src="good4u.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+    </div>
+
+</div>
+
+<!-- PAGE 3 -->
+
+<div class="page" id="page3">
+
+    <div class="act-header">
+        <h2>ACT 3 - HOVER & SHADOW</h2>
+    </div>
+
+    <div class="btn-grid">
+
+        <button class="uberbutton">Request now</button>
+        <button class="amazonbutton">Add to cart</button>
+        <button class="githubbutton">Sign up</button>
+        <button class="bootstrapbutton">Get started</button>
+        <button class="downloadbutton">Download</button>
+        <button class="linkedinbutton">Apply now</button>
+        <button class="savebutton">Save</button>
+
+    </div>
+
+</div>
+
+<!-- PAGE 4 -->
+
+<div class="page" id="page4">
+
+    <div class="act-header">
+        <h2>ACT 2 - CSS BASIC</h2>
+    </div>
+
+    <div class="btn-grid">
+
+        <button class="uberbutton">Request now</button>
+        <button class="amazonbutton">Add to cart</button>
+        <button class="githubbutton">Sign up</button>
+        <button class="bootstrapbutton">Get started</button>
+        <button class="downloadbutton">Download</button>
+        <button class="linkedinbutton">Apply now</button>
+        <button class="savebutton">Save</button>
+
+    </div>
+
+</div>
+
+<!-- PAGINATION -->
+
+<div class="pagination-bar">
+
+    <button class="nav-btn" onclick="prev()">← Prev</button>
+
+    <button class="page-btn" id="btn1" onclick="goTo(1)">1</button>
+    <button class="page-btn" id="btn2" onclick="goTo(2)">2</button>
+    <button class="page-btn" id="btn3" onclick="goTo(3)">3</button>
+    <button class="page-btn" id="btn4" onclick="goTo(4)">4</button>
+
+    <button class="nav-btn" onclick="next()">Next →</button>
+
+</div>
+
+</div>
+
+<script>
+
+let current = 0;
+const totalPages = 4;
+
+function doLogin(){
+
+    let u = document.getElementById('username').value;
+    let p = document.getElementById('password').value;
+
+    if(!u || !p){
+
+        document.getElementById('error-msg').style.display='block';
+        return;
+    }
+
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('main-content').style.display='block';
+
+    goTo(1);
+}
+
+function goTo(n){
+
+    if(current){
+
+        document.getElementById('page'+current).style.display='none';
+
+        document.getElementById('btn'+current)
+        .classList.remove('active');
+    }
+
+    current = n;
+
+    document.getElementById('page'+n).style.display='flex';
+
+    document.getElementById('btn'+n)
+    .classList.add('active');
+
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    });
+}
+
+function prev(){
+
+    let target = current - 1;
+
+    if(target < 1){
+        target = totalPages;
+    }
+
+    goTo(target);
+}
+
+function next(){
+
+    let target = current + 1;
+
+    if(target > totalPages){
+        target = 1;
+    }
+
+    goTo(target);
+}
+
+</script>
+
+</body>
+</html>
+
